@@ -44,14 +44,52 @@
                     <div class="masthead-subheading">詐騙資訊查詢</div>
                     <h5 class="section-subheading py-3">請在下方輸入您想查詢的內容</h5>
                 </div>
+
+                
                 <form action="/predict_route" method="post">
-                    <input type="text" name="predict" required>
+                    <button id="voiceToText">按下後開始說話</button>
+                    <input type="text" id="userInput" name="predict" required>
                     <!-- <textarea type="text" name="predict" required></textarea></br>-->
                     <input type="submit" value="送出查詢">
                 </form>
+                
                 <!-- <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
                 <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a> -->
             </div>
+            <script>
+                const userInput = document.getElementById('userInput');
+                const voiceToText = document.getElementById('voiceToText');
+
+                voiceToText.addEventListener('click', () => {
+                if (!('webkitSpeechRecognition' in window)) {
+                    alert('您的瀏覽器不支援語音識別功能，請考慮使用 Chrome 瀏覽器。');
+                    return;
+                }
+
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'zh-TW'; 
+
+                recognition.onresult = (event) => {
+                    const result = event.results[0][0].transcript;
+                    userInput.value = result;
+                };
+
+                recognition.onerror = (event) => {
+                    alert('語音識別錯誤: ' + event.error);
+                };
+
+                recognition.onstart = () => {
+                    console.log('語音識別已開始...');
+                };
+
+                recognition.onend = () => {
+                    console.log('語音識別已結束...');
+                };
+
+                recognition.start();
+            });
+                
+            </script>
         </header>
         <!-- Services-->
         <section class="page-section" id="services">
