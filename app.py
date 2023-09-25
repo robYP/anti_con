@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-# from flask_ngrok import run_with_ngrok
 import joblib
 from transformers import BertTokenizerFast, BertModel
 from sklearn import svm
@@ -27,7 +26,6 @@ if not os.path.exists("./bert_model/pytorch_model.bin"):
 
 # 1. 加載模型和其他資源
 tokenizer = BertTokenizerFast.from_pretrained('bert-base-chinese')
-# bert = BertModel.from_pretrained('bert-base-chinese')
 bert = BertModel.from_pretrained('bert_model/')
 clf = joblib.load('svm_model.pkl')
 
@@ -61,8 +59,3 @@ def predict_route():
 # 啟動 Flask 應用
 if __name__ == '__main__':
     app.run()
-
-
-# import torch
-# x = torch.rand(5, 3)
-# print(x)
